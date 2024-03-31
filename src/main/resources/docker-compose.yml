@@ -1,0 +1,14 @@
+version: "5"
+services:
+  rowel:
+    image: mongo:latest
+    container_name: "rowel"
+    ports:
+      - "27018:27017"
+  bookstore:
+    image: bookstore:latest
+    container_name: "bookstore"
+    ports:
+      - "9091:8082"
+    links:
+      - rowel

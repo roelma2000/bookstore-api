@@ -1,0 +1,17 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/bookstore
+
+server:
+  port: 8082
+
+jwt:
+  secret: MyS3kr3tKk # secret key
+  expiration: 3600000 # Token validity in milliseconds
+
+logging:
+  level:
+    org:
+      springframework:
+        data: DEBUG

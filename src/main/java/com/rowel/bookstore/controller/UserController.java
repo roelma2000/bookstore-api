@@ -1,15 +1,19 @@
 package com.rowel.bookstore.controller;
 
+import com.rowel.bookstore.dto.userAccessDTO;
+import com.rowel.bookstore.dto.userProfileUpdateDTO;
 import com.rowel.bookstore.model.User;
 import com.rowel.bookstore.dto.AuthResponse;
 import com.rowel.bookstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
@@ -37,24 +41,28 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable String id, @Valid @RequestBody User user) {
+    public ResponseEntity<User> updateUser(@PathVariable String id, @Valid @RequestBody userProfileUpdateDTO user) {
         return ResponseEntity.ok(userService.updateUser(id, user));
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<User> patchUser(@PathVariable String id, @Valid @RequestBody userProfileUpdateDTO user) {
+        return ResponseEntity.ok(userService.updateUser(id, user));
+    }
     @PostMapping
     public ResponseEntity<User> registerUser(@Valid @RequestBody User user) {
         return ResponseEntity.ok(userService.registerUser(user));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> loginUser(@RequestBody User loginRequest) {
+    public ResponseEntity<AuthResponse> loginUser(@RequestBody userAccessDTO loginRequest) {
         return ResponseEntity.ok(userService.loginUser(loginRequest.getEmail(), loginRequest.getPassword()));
     }
 
     @PostMapping("/logout")
     public ResponseEntity<?> logoutUser(@RequestBody String token) {
         userService.logoutUser(token);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(Map.of("message", "User successfully logout."));
     }
 
     @GetMapping("/profile")
@@ -68,4 +76,11 @@ public class UserController {
     public ResponseEntity<User> updateProfile(Principal principal, @Valid @RequestBody User user) {
         return ResponseEntity.ok(userService.updateProfile(principal.getName(), user));
     }
+
+    @PatchMapping("/auth/{id}")
+    public ResponseEntity<?> updateAuth(@PathVariable String id, @Valid @RequestBody userAccessDTO user) {
+        userService.updateAuth(id, user);
+        return ResponseEntity.ok().body(Map.of("message", "User authentication has been updated."));
+    }
+
 }

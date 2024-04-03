@@ -4,12 +4,15 @@ import jakarta.persistence.Id;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Document(collection = "users")
 public class User {
     @Id
@@ -32,7 +35,7 @@ public class User {
     private String phoneNumber;
 
     private List<String> orderHistory; // Array of Order IDs
-
+    @Data
     public static class Address {
         @NotBlank(message = "Street is required")
         private String street;

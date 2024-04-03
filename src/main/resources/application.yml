@@ -7,7 +7,8 @@ server:
   port: 8082
 
 jwt:
-  secret: MyS3kr3tKk # secret key
+  #Generate secret using command 'openssl rand -base64 64' via git bash. Need this to avoid WeakKeyException error
+  secret: DXAFhX1IzlUc4dTik1tolHqytIkA4A8R4Vv0RtRS0Ig53eB4vhrWmco6YUkLg14iVVHPDwX/TrujItFjWCtAUg== # secret key
   expiration: 3600000 # Token validity in milliseconds
 
 logging:
